@@ -12,6 +12,7 @@ docker run -d \
 -p 80:80 \
 -p 443:443 \
 -v /site/Website/:/usr/share/nginx/html:ro \
--v /etc/pki/tls/:/etc/pki/tls/:ro \
+-v /etc/letsencrypt/live/winfo.ischool.uw.edu/fullchain.pem:/etc/pki/tls/certs/winfo.ischool.uw.edu-cert.pem:ro \
+-v /etc/letsencrypt/live/winfo.ischool.uw.edu/privkey.pem:/etc/pki/tls/private/winfo.ischool.uw.edu-key.pem:ro \
 --name nginx \
 winfo/website
