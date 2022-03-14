@@ -10,11 +10,12 @@ if [[ "$(docker ps -aq --filter name=deploy-server)" ]]; then
 fi
 docker run -d -p 4000:4000 \
     --restart unless-stopped \
-	-v /certs/:/certs/:ro \
+        -v /etc/letsencrypt/live/winfo.ischool.uw.edu/fullchain.pem:/etc/pki/tls/certs/winfo.ischool.uw.edu-cert.pem:ro \
+        -v /etc/letsencrypt/live/winfo.ischool.uw.edu/privkey.pem:/etc/pki/tls/private/winfo.ischool.uw.edu-key.pem:ro \
 	-v /site/Website/:/site/Website/ \
 	-e ADDR=:4000 \
-	-e TLSKEY=/certs/winfo.ischool.uw.edu-key.pem \
-	-e TLSCERT=/certs/winfo.ischool.uw.edu-cert.pem \
+        -e TLSKEY=/etc/pki/tls/private/winfo.ischool.uw.edu-key.pem \
+        -e TLSCERT=/etc/pki/tls/certs/winfo.ischool.uw.edu-cert.pem \
 	-e AUTO_UPDATE_CONTENT_DIR=/site/Website \
 	-e AUTO_UPDATE_GIT_REPO=https://github.com/UW-WINFO/Website.git \
 	--name deploy-server \
