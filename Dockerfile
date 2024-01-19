@@ -1,16 +1,8 @@
-# Use an official Node runtime as a parent image
-FROM node:18
+FROM alpine
+RUN apk add --no-cache ca-certificates
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
 
-# Set the working directory in the container
-WORKDIR /
+ADD auto-deploy auto-deploy
 
-# Copy package.json and package-lock.json to the working directory
-COPY public/ ./public
-COPY src/ ./src
-COPY package*.json ./
-
-# Install app dependencies
-RUN npm install
-
-# Define the command to run your app
-CMD ["npm", "start"]
+ENTRYPOINT [ "/auto-deploy" ]
